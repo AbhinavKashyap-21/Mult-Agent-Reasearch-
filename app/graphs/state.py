@@ -1,11 +1,16 @@
 from typing import TypedDict
 
+
+
+class Claim(TypedDict):
+    claim: str
+    citations: str    
+    
 class ResearchState(TypedDict):
-    user_question: str
+    user_text: str
     is_valid: bool
-    research_plan: list
-    research_findings: list
-    sources: list
+    claims: list[Claim]
+    papers: list
     verification_results: list
-    critic_feedback: str
     final_answer: str
+    

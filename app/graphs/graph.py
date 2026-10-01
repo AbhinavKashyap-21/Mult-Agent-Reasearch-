@@ -1,11 +1,32 @@
-from langgraph.graph import StateGraph, START,END
-from .nodes import validate_question
+from langgraph.graph import StateGraph, START, END
+
+from .nodes import validate_question, route_question, extract_claims
 from .state import ResearchState
 
 graph = StateGraph(ResearchState)
-graph.add_node("validate_question",validate_question)
+
+graph.add_node("validate_question", validate_question)
+graph.add_node("extract_claims", extract_claims)
+
 graph.add_edge(START, "validate_question")
-graph.add_edge("validate_question", END)
+
+graph.add_conditional_edges(
+    "validate_question",
+    route_question,
+    {
+        "extract_claims": "extract_claims",
+        "invalid": END
+    }
+)
+
+graph.add_edge("extract_claims", END)
+
 graph = graph.compile()
 
-graph.invoke({"user_question": [{"is_valid": "user", "content": "hi!"}]})
+initial_state = {
+    "user_text": "What are the effects of AI on our jobs?"
+}
+
+result = graph.invoke(initial_state)
+
+print(result)
