@@ -1,5 +1,7 @@
 from .state import ResearchState
 import re
+import urllib.request
+from urllib.parse import quote
 
 def validate_question(state: ResearchState):
     question =  state["user_text"].strip().lower()
@@ -38,3 +40,5 @@ def extract_claims(state):
             })
 
     return {"claims": claims}
+
+ 
