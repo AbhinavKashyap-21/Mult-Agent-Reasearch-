@@ -1,4 +1,5 @@
 from .state import ResearchState
+import re
 
 def validate_question(state: ResearchState):
     question =  state["user_text"].strip().lower()
@@ -22,7 +23,18 @@ def route_question(state):
     
 def extract_claims(state):
     text = state["user_text"]
-        
-            
-        
-        
+    sentences = text.split(".")
+    claims = []
+
+    for sentence in sentences:
+        citations = re.findall(r"\[\d+\]", sentence)
+
+        if citations:
+            claim = re.sub(r"\[\d+\]", "", sentence).strip()
+
+            claims.append({
+                "claim": claim,
+                "citations": citations
+            })
+
+    return {"claims": claims}

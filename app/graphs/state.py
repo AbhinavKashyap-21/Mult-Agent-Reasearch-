@@ -4,7 +4,7 @@ from typing import TypedDict
 
 class Claim(TypedDict):
     claim: str
-    citations: str    
+    citations: list[str]    
     
 class ResearchState(TypedDict):
     user_text: str

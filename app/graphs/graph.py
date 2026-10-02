@@ -24,7 +24,7 @@ graph.add_edge("extract_claims", END)
 graph = graph.compile()
 
 initial_state = {
-    "user_text": "What are the effects of AI on our jobs?"
+    "user_text": ""
 }
 
 result = graph.invoke(initial_state)
